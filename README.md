@@ -11,10 +11,18 @@ The code in `lifetime_example.cpp` showcases how each lifetime event from `lifet
 Lifetime a{ "A" }; // Optionally, you can specify a name for Lifetime objects
 Lifetime b{ false }; // You can use a boolean to specify if the object should log its lifetime, true by default
 a(); // The function call operator can be used to log the current value category
+
+// If a Lifetime object is used to construct or assign to another,
+// its name (if applicable) is printed at the end of the log
+Lifetime c{ "C" };
+c = a;
 ```
 Output:
 ```
 [A] Constructor
 [A] lvalue
+[C] Constructor
+[C] Copy assignment operator [A]
+[C] Destructor
 [A] Destructor
 ```

@@ -48,10 +48,10 @@ public:
           Lifetime&& operator()()       && noexcept { log( "rvalue"       ); return std::move( *this ); }
 
     // Conversion operator
-    template <typename T> operator T() const &  noexcept { log( "Conversion operator (converted const lvalue)" ); return T{}; }
-    template <typename T> operator T()       &  noexcept { log( "Conversion operator (converted lvalue)"       ); return T{}; }
-    template <typename T> operator T() const && noexcept { log( "Conversion operator (converted const rvalue)" ); return T{}; }
-    template <typename T> operator T()       && noexcept { log( "Conversion operator (converted rvalue)"       ); return T{}; }
+    template <typename T> explicit operator T() const &  noexcept { log( "Conversion operator (converted const lvalue)" ); return T{}; }
+    template <typename T> explicit operator T()       &  noexcept { log( "Conversion operator (converted lvalue)"       ); return T{}; }
+    template <typename T> explicit operator T() const && noexcept { log( "Conversion operator (converted const rvalue)" ); return T{}; }
+    template <typename T> explicit operator T()       && noexcept { log( "Conversion operator (converted rvalue)"       ); return T{}; }
 
 private:
 

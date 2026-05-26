@@ -6,12 +6,34 @@
 
 class Lifetime
 {
+private:
+
+    template <typename T>
+    using EnableIfStringConvertible = typename std::enable_if<std::is_convertible<T, std::string>::value>::type;
+
 public:
 
     // Constructor
-    Lifetime() noexcept { log( "Default constructor" ); }
-    Lifetime( bool log_lifetime, const char* name = "" ) noexcept : name{ name }, log_lifetime{ log_lifetime } { log( "Constructor" ); }
-    Lifetime( const char* name, bool log_lifetime = true ) : name{ name }, log_lifetime{ log_lifetime } { log( "Constructor" ); }
+    Lifetime() noexcept 
+    { 
+        log( "Default constructor" ); 
+    }
+    template <typename StringConvertible = const char*, 
+              typename = EnableIfStringConvertible<StringConvertible>>
+    explicit Lifetime( bool log_lifetime, StringConvertible&& name = "" ) noexcept 
+        : name{ std::forward<StringConvertible>( name ) }
+        , log_lifetime{ log_lifetime } 
+    { 
+        log( "Constructor" ); 
+    }
+    template <typename StringConvertible, 
+              typename = EnableIfStringConvertible<StringConvertible>>
+    explicit Lifetime( StringConvertible&& name, bool log_lifetime = true ) 
+        : name{ std::forward<StringConvertible>( name ) }
+        , log_lifetime{ log_lifetime } 
+    { 
+        log( "Constructor" ); 
+    }
 
     // Destructor
     ~Lifetime() noexcept { log( "Destructor" ); }
